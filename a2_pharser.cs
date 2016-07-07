@@ -21,6 +21,7 @@ namespace pharser2
             public DataGridView name;
             public enum values { integer, floating };
             public int val_column = 0, val_row = 0;
+            public void zagolovok(int stolb, string value) { name.Columns[0].HeaderText = value; }
             public void init(int max_column, int max_row, int begin_num = 0, int off_auto_zagolovok = 0)
             {
                 name.Rows.Clear();
@@ -33,7 +34,13 @@ namespace pharser2
                 name.AutoResizeColumns();
                 
             }
+            public void arrto(int stolb, string[] mass)
+            {for (int i = 0; i < mass.Length; i++)
+                    name.Rows[i].Cells[stolb].Value = mass[i];
+                name.AutoResizeColumns();
+            }
         }
+
             public Form1()
         {
             InitializeComponent();
@@ -75,7 +82,10 @@ namespace pharser2
 
             foreach (Match match in reHref)
             { Array.Resize<string>(ref res, i+1);
-                res[i++] = match.ToString();
+                res[i] = match.ToString();
+                res[i] = res[i].Remove(0,begino.Length);
+                res[i] = res[i].Remove(res[i].Length-finalo.Length,finalo.Length);
+                i++;
                 textBox7.Text+= i.ToString()+"=";
             }
                 
@@ -113,16 +123,21 @@ namespace pharser2
             ///////////
             dg tab1 = new dg();
             tab1.name = dataGridView1;
-            tab1.init(kol, 150, 1, 0);
+            // tab1.init(kol, 150, 1, 0);
 
-            string[] res=textfromtag(textBox2.Text, beg1.Text, end1.Text);
+            string[] res;
+            res=textfromtag(textBox2.Text, beg1.Text, end1.Text);
             //TextBox7.Text =;
             //шикарно будет если массив будет записываться в датагрид
-          //  textBox7.Text = res.Length.ToString();
+            //  textBox7.Text = res.Length.ToString();
+            tab1.init(kol, res.Length, 1, 1);
             
+            tab1.arrto(0, res);
+            tab1.zagolovok(0, beg1.Text+".."+end1.Text);
 
-        //активируем вкладку с таблицей вывода
-        tabControl1.SelectedTab=r;
+
+            //активируем вкладку с таблицей вывода
+            tabControl1.SelectedTab=r;
         }
     }
 }
