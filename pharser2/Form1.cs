@@ -167,12 +167,16 @@ namespace pharser2
                 for (int ii=0;ii<res.Length;ii++)
                 { res[ii] = adress.Text+res[ii] ;
                     string cite2 = gethtml(res[ii]);
+  //идем на сайт и получаем нвые данные
+
                     if (ch51.Checked == true)
                     {
                          string[] a= textfromtag(cite2, beg51.Text, end51.Text);
-                        ch51ar[ii] = a[1];
-                        //идем на сайт и получаем нвые данные
+                        textBox3.Text = a.Length.ToString();
 
+                        if (a.Length<1) ch51ar[ii] = ""; else 
+                        ch51ar[ii] = a[1];
+                      
                     }
                     if (ch52.Checked == true)
                     {
@@ -290,6 +294,11 @@ namespace pharser2
         {
             tabControl1.Width = u.Width=r.Width=dataGridView1.Width= this.Size.Width-20;
             dataGridView1.Width = this.Size.Width - 30;
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }
